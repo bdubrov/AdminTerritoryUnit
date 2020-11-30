@@ -42,7 +42,11 @@ public class Main {
         );
         country.printInfo();
 
-        country.addRegion(regions.get("Kiev region"));
+        try {
+            country.addRegion(regions.get("Kiev region"));
+        } catch (AddNullRegionException ex) {
+            System.err.println(ex.getMessage());
+        }
 
         country.printInfo();
 
@@ -60,6 +64,10 @@ public class Main {
         System.out.println("\n\n Country advanced print\n");
         country.advancedPrintInfo();
 
-        country.addRegion(null);
+        try {
+            country.addRegion(null);
+        } catch (AddNullRegionException ex) {
+            System.err.println(ex.getMessage());
+        }
     }
 }

@@ -40,22 +40,19 @@ public class Country extends Territory {
 
     }
 
-    public void addRegion(AdminTerritorialUnit newRegion) {
-        try {
-            if (newRegion == null) {
-                throw new AddNullRegionException("Can`t add empty region!");
-            }
-            for (AdminTerritorialUnit region : regions) {
-                if (region.equals(newRegion)) {
-                    System.out.println("Can`t add new region to country because this region is already exist!");
-                    return;
-                }
-            }
-            this.regions.add(newRegion);
-            System.out.println("New region \"" + newRegion.getName() + "\" add successfully");
-        } catch (AddNullRegionException ex) {
-            System.err.println(ex.getMessage());
+    public void addRegion(AdminTerritorialUnit newRegion) throws AddNullRegionException {
+        if (newRegion == null) {
+            throw new AddNullRegionException("Can`t add empty region!");
         }
+        for (AdminTerritorialUnit region : regions) {
+            if (region.equals(newRegion)) {
+                System.out.println("Can`t add new region to country because this region is already exist!");
+                return;
+            }
+        }
+        this.regions.add(newRegion);
+        System.out.println("New region \"" + newRegion.getName() + "\" add successfully");
+
     }
 
     public AdminTerritorialUnit getRegionByName(String regionName) {

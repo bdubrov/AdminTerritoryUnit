@@ -69,5 +69,6 @@ public class Main {
         } catch (AddNullRegionException ex) {
             System.err.println(ex.getMessage());
         }
+
     }
 }

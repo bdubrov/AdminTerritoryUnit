@@ -24,20 +24,32 @@ class CountryTest {
 
         Country country = new Country("Country", 2000.0, capital, 150.3, new ArrayList<AdminTerritorialUnit>(),new ArrayList<AdminTerritorialUnit>());
 
-        country.addRegion(region);
+        try {
+            country.addRegion(region);
+        } catch (AddNullRegionException e) {
+            e.printStackTrace();
+        }
 
         assertEquals(1, country.getRegions().size());
     }
 
-    @Test/* (expected = AddNullRegionException.class)*/
+    @Test
     public void isFailToAddTwoSimilarRegion() {
         Locality capital = new Locality("Capital", 200.5);
         Region region = new Region("Region", 500.1, capital, 12.3);
 
         Country country = new Country("Country", 2000.0, capital, 150.3, new ArrayList<AdminTerritorialUnit>(),new ArrayList<AdminTerritorialUnit>());
 
-        country.addRegion(region);
-        country.addRegion(region);
+        try {
+            country.addRegion(region);
+        } catch (AddNullRegionException e) {
+            e.printStackTrace();
+        }
+        try {
+            country.addRegion(region);
+        } catch (AddNullRegionException e) {
+            e.printStackTrace();
+        }
 
         assertEquals(1, country.getRegions().size());
     }

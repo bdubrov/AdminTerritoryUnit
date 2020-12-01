@@ -46,17 +46,6 @@ public abstract class Territory implements AdminTerritorialUnit {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Territory)) return false;
-        Territory territory = (Territory) o;
-        return Double.compare(territory.numberOfPeople, numberOfPeople) == 0 &&
-                Double.compare(territory.regionArea, regionArea) == 0 &&
-                name.equals(territory.name) &&
-                regionCenter.equals(territory.regionCenter);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(name, numberOfPeople, regionCenter, regionArea);
     }

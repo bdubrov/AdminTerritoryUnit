@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class RegionTest {
     @Test
@@ -26,5 +26,18 @@ class RegionTest {
         Region region = new Region("Region", 500.1, capital, 12.3);
 
         assertNotEquals(null, region);
+    }
+
+    @Test
+    public void IsTwoSimilarRegionEquals() {
+        Locality capital = new Locality("Capital", 200.5);
+        District district = new District("district", 102, capital, 5.3);
+        ArrayList<Territory> districts = new ArrayList<>();
+        districts.add(district);
+
+        Region region1 = new Region("Region", 500.1, capital, 12.3, districts);
+        Region region2 = new Region("Region", 500.1, capital, 12.3, districts);
+
+        assertEquals(true, region1.equals(region2));
     }
 }

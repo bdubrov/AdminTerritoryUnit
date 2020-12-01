@@ -13,6 +13,10 @@ public class Person {
         this.position = position;
     }
 
+    public String getPersonInfo() {
+        return "\tname: " + name + "\n\tsurname: " + surname + "\n\tage: " + age + "\n\tposition: " + position;
+    }
+
     public String getName() {
         return name;
     }

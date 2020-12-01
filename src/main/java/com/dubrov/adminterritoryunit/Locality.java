@@ -125,6 +125,10 @@ public class Locality implements AdminTerritorialUnit {
         return localityType;
     }
 
+    public String getLeaderInfo() {
+        return "Leader of " + name + "\n" + leader.getPersonInfo();
+    }
+
     @Override
     public String getName() {
         return name;

@@ -89,7 +89,7 @@ public class Country extends Territory {
 
     public double findAverageAreaOfRegions() {
         return regions.stream()
-                .mapToDouble(region -> region.getRegionArea())
+                .mapToDouble(Territory::getRegionArea)
                 .average()
                 .getAsDouble();
     }

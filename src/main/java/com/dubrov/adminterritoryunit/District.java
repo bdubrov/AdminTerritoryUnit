@@ -2,7 +2,7 @@ package com.dubrov.adminterritoryunit;
 
 public class District extends Territory {
 
-    public District(String name, double numberOfPeople, AdminTerritorialUnit regionCenter, double regionArea) {
+    public District(String name, double numberOfPeople, Locality regionCenter, double regionArea) {
         super(name, numberOfPeople, regionCenter, regionArea);
     }
 

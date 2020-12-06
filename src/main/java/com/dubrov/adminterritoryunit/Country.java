@@ -1,13 +1,15 @@
 package com.dubrov.adminterritoryunit;
 
-import java.util.Collection;
-import java.util.Iterator;
+import java.util.*;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.counting;
 
 public class Country extends Territory {
-    private Collection<AdminTerritorialUnit> regions;
-    private Collection<AdminTerritorialUnit> localities;
+    private Collection<Region> regions;
+    private Collection<Locality> localities;
 
-    Country(String nameOfCountry, double numberOfPeople, AdminTerritorialUnit capital, double regionArea, Collection<AdminTerritorialUnit> regions, Collection<AdminTerritorialUnit> localities) {
+    Country(String nameOfCountry, double numberOfPeople, AdminTerritorialUnit capital, double regionArea, Collection<Region> regions, Collection<Locality> localities) {
         super(nameOfCountry, numberOfPeople, capital, regionArea);
         this.regions = regions;
         this.localities = localities;
@@ -32,7 +34,7 @@ public class Country extends Territory {
         System.out.println(localityInfo);
         regionCenter.printInfo();
         System.out.println("Localities:");
-        Iterator<AdminTerritorialUnit> iterator = localities.iterator();
+        Iterator<Locality> iterator = localities.iterator();
         while (iterator.hasNext()) {
             AdminTerritorialUnit locality = iterator.next();
             locality.printInfo();
@@ -40,7 +42,7 @@ public class Country extends Territory {
 
     }
 
-    public void addRegion(AdminTerritorialUnit newRegion) throws AddNullRegionException {
+    public void addRegion(Region newRegion) throws AddNullRegionException {
         if (newRegion == null) {
             throw new AddNullRegionException("Can`t add empty region!");
         }
@@ -66,23 +68,65 @@ public class Country extends Territory {
         return ret;
     }
 
-    public Collection<AdminTerritorialUnit> getRegions() {
+    public double findNumberOfPeopleOfAllRegionalCityCenter() {
+        return localities.stream()
+                .filter(locality -> locality.getLocalityType() == LocalityType.REGIONAL_CITY)
+                .mapToDouble(Locality::getNumberOfPeople)
+                .sum();
+    }
+
+    public Region findRegionWithMaxArea() {
+        return regions.stream()
+                .max((region1, region2) -> Double.compare(region1.getRegionArea(), region2.getRegionArea()))
+                .get();
+    }
+
+    public Region findRegionWithMaxAreaUpdated() {
+        return regions.stream()
+                .max(Comparator.comparing(Territory::getRegionArea))
+                .get();
+    }
+
+    public double findAverageAreaOfRegions() {
+        return regions.stream()
+                .mapToDouble(region -> region.getRegionArea())
+                .average()
+                .getAsDouble();
+    }
+
+    public Map<Boolean, List<Locality>> findAllLocalityByType(LocalityType localityType) {
+        return localities.stream()
+                .collect(Collectors.partitioningBy(locality -> locality.getLocalityType() == localityType));
+    }
+
+    public String findMostPopularNameInAllParliaments() {
+        return localities.stream()
+                .flatMap(locality -> locality.getParliament().getDeputies().stream())
+                .collect(Collectors.groupingBy(x -> x, counting()))
+                .entrySet().stream()
+                .max(Map.Entry.comparingByValue())
+                .get()
+                .getKey()
+                .getName();
+    }
+
+    public Collection<Region> getRegions() {
         return regions;
     }
 
-    public void setRegions(Collection<AdminTerritorialUnit> regions) {
+    public void setRegions(Collection<Region> regions) {
         this.regions = regions;
     }
 
-    public Collection<AdminTerritorialUnit> getLocalities() {
+    public Collection<Locality> getLocalities() {
         return localities;
     }
 
-    public void setLocalities(Collection<AdminTerritorialUnit> localities) {
+    public void setLocalities(Collection<Locality> localities) {
         this.localities = localities;
     }
 
-    public void addLocality(AdminTerritorialUnit locality) {
+    public void addLocality(Locality locality) {
         this.localities.add(locality);
     }
 }

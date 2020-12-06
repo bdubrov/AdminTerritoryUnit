@@ -2,16 +2,17 @@ package com.dubrov.adminterritoryunit;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 public class Main {
     public static void main(String[] args) {
         Country country;
-        Map<String, Territory> regions = new HashMap<>();
-        Map<String, Territory> districts = new HashMap<>();
-        Map<String, AdminTerritorialUnit> locations = new HashMap<>();
-        locations.put("Kiev", new Locality("Kiev", 2884.0));
-        locations.put("Brovary", new Locality("Brovary", 108.349));
+        Map<String, Region> regions = new HashMap<>();
+        Map<String, District> districts = new HashMap<>();
+        Map<String, Locality> locations = new HashMap<>();
+        locations.put("Kiev", new Locality("Kiev", 2000.0));
+        locations.put("Brovary", new Locality("Brovary", 105.349));
         locations.put("Kalinovka", new Locality("Kalinovka", 5.704));
         locations.put("Zazimye", new Locality("Zazimye", 4.259));
         districts.put("Brovarsky district",
@@ -31,14 +32,23 @@ public class Main {
                         new HashSet<>(districts.values())
                 )
         );
+        regions.put("Chernihiv region",
+                new Region(
+                        "Chernihiv region",
+                        200,
+                        locations.get("Kiev"),
+                        40000,
+                        new HashSet<>(districts.values())
+                )
+        );
 
         country = new Country(
                 "Ukraine",
                 4198.0,
                 locations.get("Kiev"),
                 603628,
-                new HashSet<AdminTerritorialUnit>(regions.values()),
-                new HashSet<AdminTerritorialUnit>(locations.values())
+                new HashSet<>(regions.values()),
+                new HashSet<>(locations.values())
         );
         country.printInfo();
 
@@ -70,5 +80,20 @@ public class Main {
             System.err.println(ex.getMessage());
         }
 
+
+        System.out.println("Кількість людей, що проживають у регіональних центрах країни: " +
+                country.findNumberOfPeopleOfAllRegionalCityCenter() + " тисяч");
+
+        System.out.println("Регіон країни з максимальною площею:");
+        country.findRegionWithMaxArea().printInfo();
+        System.out.println("Регіон країни з максимальною площею:");
+        country.findRegionWithMaxAreaUpdated().printInfo();
+
+        System.out.println("Середня площа регіону в країні: " + country.findAverageAreaOfRegions());
+
+        System.out.println("Список міст регіонального значення країни:");
+        country.findAllLocalityByType(LocalityType.REGIONAL_CITY).get(true).forEach(Locality::printInfo);
+
+        System.out.println("Найпопулярніше ім`я серед усіх депутатів в країні: " + country.findMostPopularNameInAllParliaments());
     }
 }

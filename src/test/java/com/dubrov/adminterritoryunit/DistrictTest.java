@@ -10,7 +10,7 @@ class DistrictTest {
     public void IsNewDistrictSuccessfullyCreatedWithParametersIfAllParametersIsRight() {
         String name = "District 1";
         double numberOfPeople = 1000.0;
-        AdminTerritorialUnit regionCenter = new Locality("City 1", 200.0);
+        Locality regionCenter = new Locality("City 1", 200.0);
         double regionArea = 321.5;
 
         District district = new District(name, numberOfPeople, regionCenter, regionArea);
